@@ -23,13 +23,6 @@ export const Cart = () => {
           <div className={styles.cart_product_image}>
             <img src="images/image001.png" alt="product-img" />
           </div>
-
-          <div className={styles.cart_product_info}>
-            <p className={styles.seller_store}>아이돈케어</p>
-            <p className={styles.product_name}>노트북 파우치</p>
-            <p className={styles.price}>1000원</p>
-            <p className={styles.delivery}>택배배송 / 무료배송</p>
-          </div>
         </div>
 
         <div className={styles.cart_product_count}>
