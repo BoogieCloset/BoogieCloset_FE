@@ -4,6 +4,10 @@ import { TopNavigationBar } from "./components/header/topNavigationBar/topNaviga
 import Home from "./pages/home";
 import Product from "./pages/product";
 import Basket from "./pages/basket";
+import Login from "./components/login/login";
+import Register from './components/register/register';
+import ContactUs from './components/contactus/contactus';
+
 import { useState } from "react";
 
 
@@ -31,6 +35,9 @@ function App() {
           element={<Product convertPrice={convertPrice} />}
         />
         <Route path="/cart" element={<Basket />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/contactus" element={<ContactUs />} />
       </Routes>
     </BrowserRouter>
   );
