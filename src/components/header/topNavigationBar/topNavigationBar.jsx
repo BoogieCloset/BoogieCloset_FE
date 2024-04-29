@@ -23,13 +23,13 @@ export const TopNavigationBar = () => {
             <span>장바구니</span>
           </div>
         </Link>
-        <Link to="">
+        <Link to="/contactus">
           <div className={styles.mypage}>
             <img src="/images/icon-user.svg" alt="user" />
             <span>고객센터</span>
           </div>
         </Link>
-        <Link to="">
+        <Link to="/login">
           <div className={styles.mypage}>
             <img src="/images/icon-user.svg" alt="user" />
             <span>로그인</span>
