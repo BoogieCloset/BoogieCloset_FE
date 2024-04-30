@@ -3,19 +3,53 @@ import styles from "./detail.module.css";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../service/fetcher";
 
-export const Detail = ({ convertPrice }) => {
+export const Detail = ({ convertPrice, cart, setCart}) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
 
+  
+  //장바구니에 중복 물건 
+  const setQuantity = (id, quantity) => {
+    const found = cart.filter((el) => el.id ===id)[0];
+    const idx = cart.indexOf(found);
+    const cartItem = {
+      id : product.id,
+      image: product.image,
+      name: product.name,
+      quantity: quantity,
+      price: product.price,
+      provider: product.provider,
+    }
+    setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+  };
+
+  //장바구니 물건
+  const handleCart = () => {
+    const cartItem = {
+      id: product.id,
+      image: product.image,
+      name: product.name,
+      quantity: count,
+      price: product.price,
+      provider: product.provider,
+    };
+    const found = cart.find((el) => el.id ===cartItem.id);
+    if (found) setQuantity(cartItem.id, found.quantity + count);
+    else setCart([...cart, cartItem]);
+    alert('장바구니에 추가되었습니다.');
+  }
+
+    //product_detail 수량 관리
   const handleQuantity = (type) => {
-    if (type == "plus") {
+    if (type === "plus") {
       setCount(count + 1);
     } else {
       if (count === 1) return;
       setCount(count - 1);
     }
   };
+
   useEffect(() => {
     getProducts().then((data) => {
       setProduct(
@@ -23,6 +57,7 @@ export const Detail = ({ convertPrice }) => {
       );
     });
   }, [id, product.price]);
+
   return (
     product && (
       <>
@@ -88,7 +123,7 @@ export const Detail = ({ convertPrice }) => {
 
             <div className={styles.btn}>
               <button className={styles.btn_buy}>바로 구매</button>
-              <button className={styles.btn_cart}>장바구니</button>
+              <button className={styles.btn_cart} onClick={() => {handleCart();}}>장바구니</button>
             </div>
           </section>
         </main>
