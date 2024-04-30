@@ -146,8 +146,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid #c4c4c4;
-  border-top:none;
-  border-bottom:none;
+  border-top: none;
+  border-bottom: none;
 }
 
 .cart_product_count .count span {
@@ -181,15 +181,16 @@
 }
 
 .cart_product_price .btn_submit {
-  width: 130px;
-  height: 40px;
+  width: 200px;
+  height: 60px;
   background: #000000;
   border-radius: 5px;
   border: none;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 24px;
   line-height: 20px;
   color: #ffffff;
+  margin-left: 7em;
 }
 
 /* cart */
@@ -234,14 +235,14 @@
   background: #f2f2f2;
 }
 
-.total .total_price, 
+.total .total_price,
 .total .sale,
 .total .delivery,
 .total .payment {
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .total_price .cart_product_total_price,
@@ -395,6 +396,19 @@
 
   .cart_product_price .btn_submit {
     width: 100%;
+    justify-content: center;
+  }
+
+  .button_container .btn_submit{
+    width: 130px;
+    height: 40px;
+    background: #000000;
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #ffffff;
   }
 
   .pay_minus,
