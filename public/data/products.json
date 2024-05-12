@@ -2,6 +2,7 @@
   "products": [
     {
       "id": 1,
+      "category" : "top",
       "name": "LEE 티셔츠",
       "provider": "LEE",
       "price": 10000,
@@ -9,6 +10,7 @@
     },
     {
       "id": 2,
+      "category" : "outer",
       "name": "LEE 티셔츠2",
       "provider": "LEE",
       "price": 20000,
@@ -16,6 +18,7 @@
     },
     {
       "id": 3,
+      "category" : "pants",
       "name": "LEE 티셔츠3",
       "provider": "LEE",
       "price": 30000,
@@ -23,9 +26,26 @@
     },
     {
       "id": 4,
+      "category" : "skirt",
       "name": "LEE 티셔츠4",
       "provider": "LEE",
       "price": 40000,
+      "image": "/images/image001.png"
+    },
+    {
+      "id": 5,
+      "category" : "accessory",
+      "name": "LEE 티셔츠5",
+      "provider": "LEE",
+      "price": 50000,
+      "image": "/images/image001.png"
+    },
+    {
+      "id": 6,
+      "category" : "shoes",
+      "name": "LEE 티셔츠6",
+      "provider": "LEE",
+      "price": 60000,
       "image": "/images/image001.png"
     }
   ]

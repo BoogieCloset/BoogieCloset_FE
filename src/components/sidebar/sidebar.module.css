@@ -1,0 +1,27 @@
+.sidebar {
+    width: 200px;
+    padding: 20px;
+    background-color: #ffffff;
+    height: 100%;
+    position: fixed;
+    top: 10;
+    left: 0;
+    overflow-y: auto;
+  }
+  
+  .list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .list-item {
+    margin: 10px 0;
+    cursor: pointer;
+    color: #000000;
+    text-decoration: underline;
+    font-size: 30px;
+  }
+  
+  .list-item:hover {
+    text-decoration: none;
+  }
