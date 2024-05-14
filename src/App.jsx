@@ -14,7 +14,7 @@ function App() {
   };
   return (
     <BrowserRouter>
-      <TopNavigationBar cart={cart} />
+      <TopNavigationBar cart={cart} products={products} />
       <Routes>
         <Route
           path="/"
