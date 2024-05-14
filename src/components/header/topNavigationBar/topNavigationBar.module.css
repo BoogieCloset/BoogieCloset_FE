@@ -55,6 +55,35 @@
   height: 19px;
 }
 
+.searchResults {
+  position: absolute;
+  width: 100%; 
+  background-color: white; 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1000; 
+  left: 0;
+  right: 0;
+  top: 100%; 
+  border-radius: 0 0 4px 4px; 
+  overflow: hidden; 
+}
+
+.searchResults a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none; 
+  color: black; 
+  border-bottom: 1px solid #f0f0f0; 
+}
+
+.searchResults a:last-child {
+  border-bottom: none; 
+}
+
+.searchResults a:hover {
+  background-color: #f9f9f9; 
+}
+
 .menu {
   display: flex;
   align-items: center;
