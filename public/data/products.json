@@ -11,42 +11,50 @@
     {
       "id": 2,
       "category" : "outer",
-      "name": "LEE 티셔츠2",
+      "name": "Cotton double long trench coat",
       "provider": "LEE",
       "price": 20000,
-      "image": "/images/image001.png"
+      "image": "/images/Cotton double long trench coat.JPG"
     },
     {
       "id": 3,
       "category" : "pants",
-      "name": "LEE 티셔츠3",
+      "name": "Cotton wide pants",
       "provider": "LEE",
       "price": 30000,
-      "image": "/images/image001.png"
+      "image": "/images/Cotton wide pants.JPG"
     },
     {
       "id": 4,
       "category" : "skirt",
-      "name": "LEE 티셔츠4",
+      "name": "Check mini skirt",
       "provider": "LEE",
       "price": 40000,
-      "image": "/images/image001.png"
+      "image": "/images/Check mini skirt.JPG"
     },
     {
       "id": 5,
       "category" : "accessory",
-      "name": "LEE 티셔츠5",
+      "name": "Metal sunglasses",
       "provider": "LEE",
       "price": 50000,
-      "image": "/images/image001.png"
+      "image": "/images/Metal sunglasses.JPG"
     },
     {
       "id": 6,
       "category" : "shoes",
-      "name": "LEE 티셔츠6",
+      "name": "Basic flats",
       "provider": "LEE",
       "price": 60000,
-      "image": "/images/image001.png"
+      "image": "/images/Basic flats.JPG"
+    },
+    {
+      "id": 7,
+      "category" : "onepiece",
+      "name": "Floral lace mini dress",
+      "provider": "LEE",
+      "price": 60000,
+      "image": "/images/Floral lace mini dress.JPG"
     }
   ]
 }
