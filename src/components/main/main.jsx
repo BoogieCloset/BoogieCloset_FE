@@ -5,7 +5,7 @@ import { Sidebar } from "../sidebar/sidebar";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../service/fetcher";
 
-const categories = ["전체", "top", "outer", "pants", "skirt", "shoes", "accessory"];
+const categories = ["전체", "top", "outer", "pants", "skirt", "onepiece", "shoes", "accessory"];
 
 export const Main = ({ products, setProducts, convertPrice }) => {
   const [selectedCategory, setSelectedCategory] = useState("전체");
