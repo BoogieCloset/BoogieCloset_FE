@@ -1,6 +1,9 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { TopNavigationBar } from "./components/header/topNavigationBar/topNavigationBar";
+import { Login } from "./components/login/login";
+import { Register } from './components/register/register';
+import { ContactUs } from './components/contactus/contactus';
 import Home from "./pages/home";
 import Product from "./pages/product";
 import Basket from "./pages/basket";
@@ -42,6 +45,9 @@ function App() {
             <Basket cart={cart} setCart={setCart} convertPrice={convertPrice} />
           }
         />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} />
+        <Route path="/contactus" element={<ContactUs/>}/>
       </Routes>
     </BrowserRouter>
   );

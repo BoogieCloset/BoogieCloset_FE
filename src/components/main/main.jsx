@@ -4,6 +4,7 @@ import { Product } from "../products/product";
 import { Sidebar } from "../sidebar/sidebar";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../service/fetcher";
+import axios from "axios";
 
 const categories = ["전체", "top", "outer", "pants", "skirt", "onepiece", "shoes", "accessory"];
 
@@ -26,10 +27,14 @@ export const Main = ({ products, setProducts, convertPrice }) => {
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
   useEffect(() => {
-    getProducts().then((data) => {
-      setProducts(data.data.products);
-    });
-  }, [setProducts]);
+    axios.get('/items/list')
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching products", error);
+      });
+  }, []);
 
   const filteredProducts = selectedCategory === "전체" 
     ? products 

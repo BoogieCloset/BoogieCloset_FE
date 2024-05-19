@@ -48,7 +48,7 @@ export const TotalCart = ({ total, setTotal, cart, convertPrice, found }) => {
       <div></div>
       <div></div>
       <div className={styles.cart_product_price}>
-        <button className={styles.btn_submit}>주문하기</button>
+        <button className={styles.btn_submit} href="/order">주문하기</button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import styles from "./cart.module.css";
+import { deleteCartItem} from './cartapi';
 
 export const CartList = ({
   cart,
@@ -8,6 +9,8 @@ export const CartList = ({
   handleRemove,
   handleCheckList,
 }) => {
+  
+
   return (
     <section className={styles.cart_product_list}>
       <input

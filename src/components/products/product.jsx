@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./product.module.css";
+import { useState } from "react";
 
 export const Product = ({ product, convertPrice }) => {
   

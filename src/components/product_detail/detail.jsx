@@ -2,15 +2,27 @@ import { useParams } from "react-router-dom";
 import styles from "./detail.module.css";
 import { useEffect, useState } from "react";
 import { getProducts } from "../../service/fetcher";
+import axios from "axios";
 
 export const Detail = ({ convertPrice, cart, setCart}) => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`/items/get/${id}`);
+        setProduct(response.data);
+      } catch (error) {
+        console.error('Error fetching product', error);
+      }
+    };
+    fetchProduct();
+  }, [id]);
   
   //장바구니에 중복 물건 
-  const setQuantity = (id, quantity) => {
+  const setQuantity = async (id, quantity) => {
     const found = cart.filter((el) => el.id ===id)[0];
     const idx = cart.indexOf(found);
     const cartItem = {
@@ -21,11 +33,14 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
       price: product.price,
       provider: product.provider,
     }
-    setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+    const result = await axios.post('/carts/add', cartItem);
+    if(result.status === 200){
+      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
+    }
   };
 
   //장바구니 물건
-  const handleCart = () => {
+  const handleCart = async () => {
     const cartItem = {
       id: product.id,
       image: product.image,
@@ -36,8 +51,13 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
     };
     const found = cart.find((el) => el.id ===cartItem.id);
     if (found) setQuantity(cartItem.id, found.quantity + count);
-    else setCart([...cart, cartItem]);
-    alert('장바구니에 추가되었습니다.');
+    else {
+      const result = await axios.post('/carts/add', cartItem);
+      if(result.status === 200){
+        setCart([...cart, cartItem]);
+        alert('장바구니에 추가되었습니다.');
+      }
+    }
   }
 
     //product_detail 수량 관리
@@ -49,14 +69,6 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
       setCount(count - 1);
     }
   };
-
-  useEffect(() => {
-    getProducts().then((data) => {
-      setProduct(
-        data.data.products.find((product) => product.id === parseInt(id))
-      );
-    });
-  }, [id, product.price]);
 
   return (
     product && (
