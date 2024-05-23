@@ -1,29 +1,103 @@
 import styles from "./topNavigationBar.module.css";
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import axiosInstance from "../../../service/axiosinstance";
 
-export const TopNavigationBar = ({ cart, products = [] }) => {
+
+export const TopNavigationBar = ({ cart, setCart, products = [] }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const searchRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    axiosInstance.get('/carts/viewAll', {
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      }
+    })
+      .then(response => {
+        const cartData = response.data.map(item => ({
+          itemId: item.cartItemDTO.itemId,
+          name: item.cartItemDTO.name,
+          price: item.cartItemDTO.price,
+          category: item.cartItemDTO.category,
+          imageUrl: item.cartItemDTO.imageUrl,
+          quantity: item.quantity,
+        }));
+        setCart(cartData);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post('/logout', {}, {
+        withCredentials: true, 
+      });
+
+      localStorage.removeItem('token');
+      setIsLoggedIn(false);
+      window.location.href = '/';
+    } catch (error) {
+      console.error('로그아웃 실패:', error);
+    }
+  };
+
+  const handleMyPageClick = () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login';
+    } else {
+      window.location.href = '/mypage';
+    }
+  };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearch = () => {
-    if (!searchTerm) {
-      setSearchResults([]);
-      return;
+  const handleSearch = async () => {
+    try {
+      const response = await axiosInstance.get(`/items/search?keyword=${encodeURIComponent(searchTerm)}`);
+      console.log(response.data);
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error('검색 실패:', error);
     }
-    const results = products.filter((product) =>
-      product.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setSearchResults(results);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchResults([]);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchRef]);
+
+  useEffect(() => {
+    setSearchTerm(''); 
+    setSearchResults([]); 
+  }, [location.pathname]);
 
   return (
     <header className={styles.header}>
-      <div className={styles.inner}>
+      <div className={styles.inner}  ref={searchRef} >
         <Link to="/">
           <h1 className={styles.logo}>
             <img src="/images/logo.png" alt="logo" />
@@ -73,18 +147,23 @@ export const TopNavigationBar = ({ cart, products = [] }) => {
             )}
           </div>
         </Link>
-        <Link to="">
-          <div className={styles.mypage}>
+        <div className={styles.mypage} onClick={handleMyPageClick} style={{ cursor: 'pointer' }}>
+          <img src="/images/icon-user.svg" alt="user" />
+          <span>내 정보</span>
+        </div>
+        {isLoggedIn ? (
+          <div className={styles.mypage} onClick={handleLogout} style={{ cursor: 'pointer' }}>
             <img src="/images/icon-user.svg" alt="user" />
-            <span>고객센터</span>
+            <span>로그아웃</span>
           </div>
-        </Link>
-        <Link to="">
-          <div className={styles.mypage}>
-            <img src="/images/icon-user.svg" alt="user" />
-            <span>로그인</span>
-          </div>
-        </Link>
+        ) : (
+          <Link to="/login">
+            <div className={styles.mypage}>
+              <img src="/images/icon-user.svg" alt="user" />
+              <span>로그인</span>
+            </div>
+          </Link>
+        )}
       </div>
     </header>
   );

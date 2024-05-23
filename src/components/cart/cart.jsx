@@ -1,8 +1,9 @@
 import styles from "./cart.module.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { CartHeader } from "./cartHeader";
 import { CartList } from "./cartList";
 import { TotalCart } from "./totalCart";
+import axiosInstance from "../../service/axiosinstance";
 
 export const Cart = ({ cart, setCart, convertPrice}) => {
   const [total, setTotal] = useState(0);
@@ -10,46 +11,79 @@ export const Cart = ({ cart, setCart, convertPrice}) => {
   const isAllChecked =
     cart.length === checkLists.length && checkLists.length !== 0;
 
+    useEffect(() => {
+      axiosInstance.get('/carts/viewAll', {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        }
+      })
+        .then(response => {
+          const cartData = response.data.map(item => ({
+            itemId: item.cartItemDTO.itemId,
+            name: item.cartItemDTO.name,
+            price: item.cartItemDTO.price,
+            category: item.cartItemDTO.category,
+            imageUrl: item.cartItemDTO.imageUrl,
+            quantity: item.quantity,
+          }));
+          setCart(cartData);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }, []);
+  
+    const handleQuantity = (type, itemId, quantity) => {    
+      if (quantity <= 0) {
+        console.error("Quantity cannot be less than zero");
+        return;
+      }
+      const cartItem = {
+        itemId: itemId,
+        quantity: quantity
+      };
+    
+      console.log("보내기 전 cartItem:", cartItem);
+      axiosInstance.put('/carts/quantity', cartItem, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        }
+      })
+      .then(response => {
+        setCart(currentCart => {
+          return currentCart.map((el) =>
+            el.itemId === itemId ? { ...el, quantity: quantity } : el
+          );
+        });
+      })
+        .catch(error => {
+          console.error("Error updating cart:", error);
+        });
+    };
+
+  const handleRemove = (itemId) => {
+    axiosInstance.delete(`/carts/delete/${itemId}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      }
+    })
+      .then(response => {
+        setCart(cart.filter(item => item.itemId !== itemId));
+        setCheckLists(checkLists.filter(check => check !== itemId));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   const found = checkLists.map((checkList) =>
-    cart.filter((el) => el.id === parseInt(checkList))
+    cart.filter((el) => el.itemId === parseInt(checkList))
   );
-
-  const handleQuantity = (type, id, quantity) => {
-    const found = cart.filter((el) => el.id === id)[0];
-    const idx = cart.indexOf(found);
-
-    if (type === "plus") {
-      const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        provider: found.provider,
-      };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    } else {
-      if (quantity === 0) return;
-      const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        provider: found.provider,
-      };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    }
-  };
-
-  const handleRemove = (id) => {
-    setCart(cart.filter((cart) => cart.id !== id));
-    setCheckLists(checkLists.filter((check) => parseInt(check) !== id));
-  };
 
   const handleCheckList = (checked, id) => {
     if (checked) {
       setCheckLists([...checkLists, id]);
+      console.log(checkLists);
     } else {
       setCheckLists(checkLists.filter((check) => check !== id));
     }
@@ -58,7 +92,7 @@ export const Cart = ({ cart, setCart, convertPrice}) => {
   const handleCheckAll = (checked) => {
     if (checked) {
       const checkItems = [];
-      cart.map((cart) => checkItems.push(`${cart.id}`));
+      cart.map((cart) => checkItems.push(`${cart.itemId}`));
       setCheckLists(checkItems);
     } else {
       setCheckLists([]);
@@ -72,7 +106,7 @@ export const Cart = ({ cart, setCart, convertPrice}) => {
         cart.map((cart) => {
           return (
             <CartList
-              key={`key-${cart.id}`}
+              key={`key-${cart.itemId}`}
               cart={cart}
               setCart={setCart}
               convertPrice={convertPrice}

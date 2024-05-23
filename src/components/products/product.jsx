@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import styles from "./product.module.css";
+import { useState } from "react";
 
 export const Product = ({ product, convertPrice }) => {
+
+  function importLocalImage(imageName) {
+    return require(`/public/images/${imageName}`);
+  }
   
   return (
     <div className={styles.product}>

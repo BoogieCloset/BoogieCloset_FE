@@ -8,15 +8,19 @@ export const CartList = ({
   handleRemove,
   handleCheckList,
 }) => {
+  function importLocalImage(imageName) {
+    return require(`/public/images/${imageName}`);
+  }
+  
   return (
     <section className={styles.cart_product_list}>
       <input
         type="checkbox"
         id={cart.id}
         onChange={(e) => {
-          handleCheckList(e.currentTarget.checked, `${cart.id}`);
+          handleCheckList(e.currentTarget.checked, `${cart.itemId}`);
         }}
-        checked={checkLists.includes(`${cart.id}`) ? true : false}
+        checked={checkLists.includes(`${cart.itemId}`) ? true : false}
       />
       <div className={styles.cart_product_wrap}>
         <div className={styles.cart_product_image}>
@@ -37,7 +41,7 @@ export const CartList = ({
           src="/images/icon-minus-line.svg"
           alt="minus"
           onClick={() => {
-            handleQuantity("minus", cart.id, cart.quantity - 1);
+            handleQuantity("minus", cart.itemId, cart.quantity - 1);
           }}
         />
 
@@ -48,7 +52,7 @@ export const CartList = ({
           className={styles.plus}
           src="/images/icon-plus-line.svg"
           alt="plus"
-          onClick={() => handleQuantity("plus", cart.id, cart.quantity + 1)}
+          onClick={() => handleQuantity("plus", cart.itemId, cart.quantity + 1)}
         />
       </div>
 
@@ -61,7 +65,7 @@ export const CartList = ({
 
       <div
         className={styles.product_remove}
-        onClick={() => handleRemove(cart.id)}
+        onClick={() => handleRemove(cart.itemId)}
       >
         <img src="/images/icon-delete.svg" alt="delete" />
       </div>
