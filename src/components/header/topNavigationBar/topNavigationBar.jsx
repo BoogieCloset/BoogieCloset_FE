@@ -11,10 +11,13 @@ export const TopNavigationBar = ({ cart, setCart, products = [] }) => {
   const searchRef = useRef(null);
   const location = useLocation();
 
+  
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
     axiosInstance.get('/carts/viewAll', {
       headers: {
-        Authorization: `${localStorage.getItem('token')}`,
+        Authorization: `${token}`,
       }
     })
       .then(response => {
@@ -31,6 +34,7 @@ export const TopNavigationBar = ({ cart, setCart, products = [] }) => {
       .catch(error => {
         console.error(error);
       });
+    }
   }, []);
 
   useEffect(() => {
