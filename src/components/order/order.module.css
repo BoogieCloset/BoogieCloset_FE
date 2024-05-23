@@ -1,0 +1,120 @@
+/* checkout_container 스타일 */
+.checkout_container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+  
+  .checkout_items, .order_info, .payment_info {
+    margin-bottom: 20px;
+  }
+  
+  .checkout_item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 10px;
+  }
+  
+  .item_image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 8px;
+  }
+  
+  .item_info p {
+    margin: 5px 0;
+  }
+  
+  /* 결제 정보 폼 스타일 */
+  .form_group {
+    margin-bottom: 15px;
+  }
+  
+  .form_group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form_group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .submit_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit_button:hover {
+    background-color: #000;
+  }
+  
+  .total {
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f8f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+  
+  .total_price, .sale, .delivery, .payment {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .pay_minus, .pay_plus {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .cart_prouct_payment {
+    font-size: 1.2em; /* 글자 크기 조정 */
+    color: #000; /* 글자 색상을 빨간색으로 변경 */
+  }
+  
+  .cart_prouct_payment_price {
+    font-size: 1.5em; /* 글자 크기를 더 크게 조정 */
+    color: red; /* 글자 색상을 빨간색으로 변경 */
+  }
+  
+  .checkoutTable {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .checkoutTable th, .checkoutTable td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  .checkoutTable th {
+    background-color: #f2f2f2;
+  }
+  
+  .itemImage {
+    width: 60px; /* 이미지 크기 조정 */
+    height: auto;
+  }
+  
+  /* 홀수 행 배경색 변경을 위한 스타일 */
+  .checkoutTable tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }

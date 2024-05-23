@@ -1,23 +1,26 @@
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { TopNavigationBar } from "./components/header/topNavigationBar/topNavigationBar";
 import { Login } from "./components/login/login";
 import { Register } from './components/register/register';
-import { ContactUs } from './components/contactus/contactus';
 import Home from "./pages/home";
 import Product from "./pages/product";
 import Basket from "./pages/basket";
-import { useState } from "react";
+import MyInfo from "./pages/myinfo";
+import { useState,useEffect } from "react";
+import Payment from "./pages/payment";
 
 function App() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
+
   const convertPrice = (price) => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return price//.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
+
   return (
     <BrowserRouter>
-      <TopNavigationBar cart={cart} products={products} />
+      <TopNavigationBar cart={cart} setCart={setCart} products={products} />
       <Routes>
         <Route
           path="/"
@@ -47,7 +50,8 @@ function App() {
         />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
-        <Route path="/contactus" element={<ContactUs/>}/>
+        <Route path="/mypage" element={<MyInfo />} />
+        <Route path="/order" element={<Payment convertPrice={convertPrice}/>}/>
       </Routes>
     </BrowserRouter>
   );

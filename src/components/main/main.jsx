@@ -3,10 +3,9 @@ import { EventBanner } from "../eventBanner/eventBanner";
 import { Product } from "../products/product";
 import { Sidebar } from "../sidebar/sidebar";
 import { useEffect, useState } from "react";
-import { getProducts } from "../../service/fetcher";
-import axios from "axios";
+import axiosInstance from "../../service/axiosinstance";
 
-const categories = ["전체", "top", "outer", "pants", "skirt", "onepiece", "shoes", "accessory"];
+const categories = ["전체", "TOP", "OUTER", "PANTS", "SKIRT", "ONEPIECE", "SHOES", "ACCESSORY"];
 
 export const Main = ({ products, setProducts, convertPrice }) => {
   const sortProduct = (type) => {
@@ -27,7 +26,7 @@ export const Main = ({ products, setProducts, convertPrice }) => {
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
   useEffect(() => {
-    axios.get('/items/list')
+    axiosInstance.get('/items/list')
       .then((response) => {
         setProducts(response.data);
       })

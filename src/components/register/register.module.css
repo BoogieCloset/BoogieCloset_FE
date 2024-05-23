@@ -1,44 +1,35 @@
 .container {
-    max-width: 500px;
-    margin: 0;
-    padding: 30px;
-    text-align: left;
-    margin-left: 50px;
-  }
+  max-width: 500px;
+  padding: 0px;
+  text-align: left;
+  overflow: hidden;
+  margin: 50px 0px 0 50px; 
+}
 
-  .input_style1 {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 25px;
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: 0.1px solid grey;
-  }
+.input_style1 {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 25px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 0.1px solid grey;
+}
 
-  .input_style2 {
-    width: 50%;
-    padding: 10px;
-    margin: 10px 0 25px;
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: 0.1px solid grey;
-  }
+.button_style {
+  width: 65%;
+  padding: 15px;
+  background-color: black;
+  color: white;
+  border: none;
+  margin: 20px 0;
+  cursor: pointer;
+  border-radius: 5px;
+  
+}
 
-  .button_style {
-    width: 65%;
-    padding: 10px;
-    background-color: black;
-    color: white;
-    border: none;
-    margin: 10px 0;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  .register_text {
-    margin-bottom: 7vw;
-    margin-top: 9vw;
-    font-weight: bold;
-    font-family: 'Littera Text', serif;
-    font-size: 60px;
-  }
+.register_text {
+  margin: 20px 0 30px 0;
+  font-weight: bold;
+  font-family: 'Littera Text', serif;
+  font-size: 60px;
+}

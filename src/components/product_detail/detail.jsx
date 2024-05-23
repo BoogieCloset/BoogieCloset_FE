@@ -1,64 +1,64 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styles from "./detail.module.css";
 import { useEffect, useState } from "react";
-import { getProducts } from "../../service/fetcher";
-import axios from "axios";
+import axiosInstance from "../../service/axiosinstance";
 
 export const Detail = ({ convertPrice, cart, setCart}) => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [count, setCount] = useState(1);
+  const [isDirectPurchase, setIsDirectPurchase] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`/items/get/${id}`);
+        const response = await axiosInstance.get(`/items/get/${id}`);
         setProduct(response.data);
+        console.log(product);
       } catch (error) {
         console.error('Error fetching product', error);
       }
     };
     fetchProduct();
   }, [id]);
-  
-  //장바구니에 중복 물건 
-  const setQuantity = async (id, quantity) => {
-    const found = cart.filter((el) => el.id ===id)[0];
-    const idx = cart.indexOf(found);
-    const cartItem = {
-      id : product.id,
-      image: product.image,
-      name: product.name,
-      quantity: quantity,
-      price: product.price,
-      provider: product.provider,
-    }
-    const result = await axios.post('/carts/add', cartItem);
-    if(result.status === 200){
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    }
-  };
 
   //장바구니 물건
   const handleCart = async () => {
     const cartItem = {
-      id: product.id,
-      image: product.image,
-      name: product.name,
+      itemId: product.id,
       quantity: count,
-      price: product.price,
-      provider: product.provider,
     };
-    const found = cart.find((el) => el.id ===cartItem.id);
-    if (found) setQuantity(cartItem.id, found.quantity + count);
+    console.log("보내기 전 cartItem:", cartItem);
+  
+    if (product.stockQuantity === 0) {
+      alert("품절된 상품입니다.");
+      return;
+    }
+    else if (product.stockQuantity < count) {
+      alert(`재고가 부족합니다. ${product.stockQuantity} 이하로 구매해주세요.`);
+      return;
+    }
     else {
-      const result = await axios.post('/carts/add', cartItem);
+    try {
+      const result = await axiosInstance.post('/carts/add', cartItem, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`, 
+        }
+      });
       if(result.status === 200){
-        setCart([...cart, cartItem]);
+        setCart(prevCart => [...prevCart, cartItem]); 
         alert('장바구니에 추가되었습니다.');
+      } else {
+        console.error('Unexpected status code:', result.status);
       }
+    } catch (error) {
+      // 오류 처리
+      console.error('Error adding item to cart', error);
+      alert('장바구니에 이미 존재하는 물건입니다.');
     }
   }
+  };
 
     //product_detail 수량 관리
   const handleQuantity = (type) => {
@@ -69,6 +69,30 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
       setCount(count - 1);
     }
   };
+
+  const handleBuyNow = () => {
+    if (product.stockQuantity === 0) {
+      alert("품절된 상품입니다.");
+      return;
+    }
+    else if (product.stockQuantity < count) {
+      alert(`재고가 부족합니다. ${product.stockQuantity} 이하로 구매해주세요.`);
+      return;
+    }
+    else {
+    const orderItem = [product].map(item => ({
+      itemId: product.id,
+      quantity: count,
+      price: product.price,
+      name: product.name,
+      imageUrl: product.imagePath
+    }));
+    console.log(product);
+    setIsDirectPurchase(true);
+    navigate('/order', { state: { orderItem, isDirectPurchase: true } });
+  }
+  };
+
 
   return (
     product && (
@@ -134,7 +158,7 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
             </div>
 
             <div className={styles.btn}>
-              <button className={styles.btn_buy}>바로 구매</button>
+              <button className={styles.btn_buy} onClick={handleBuyNow}>바로 구매</button>
               <button className={styles.btn_cart} onClick={() => {handleCart();}}>장바구니</button>
             </div>
           </section>

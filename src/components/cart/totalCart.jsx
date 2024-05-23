@@ -1,7 +1,10 @@
 import styles from "./cart.module.css";
 import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 export const TotalCart = ({ total, setTotal, cart, convertPrice, found }) => {
+  const navigate = useNavigate(); 
+
   useEffect(() => {
     if (found) {
       const temp = found.filter((item) => item.length !== 0);
@@ -17,6 +20,22 @@ export const TotalCart = ({ total, setTotal, cart, convertPrice, found }) => {
       setTotal(0);
     }
   }, [cart, total, found, setTotal]);
+
+  const handleBuyCart = () => {
+    const orderItem = found.map(item => ({
+      itemId: item[0].itemId,
+      quantity: item[0].quantity,
+      price: item[0].price,
+      name: item[0].name,
+      imageUrl: item[0].imageUrl
+    }));
+    console.log(orderItem);
+    if (orderItem.length === 0) {
+      alert("선택된 물건이 없습니다.");
+      return;
+    }
+    navigate('/order', { state: { orderItem } });
+  };
 
   return (
     <div className={styles.total}>
@@ -48,7 +67,7 @@ export const TotalCart = ({ total, setTotal, cart, convertPrice, found }) => {
       <div></div>
       <div></div>
       <div className={styles.cart_product_price}>
-        <button className={styles.btn_submit} href="/order">주문하기</button>
+        <button className={styles.btn_submit} onClick={handleBuyCart}> 주문하기</button>
       </div>
     </div>
   );

@@ -1,45 +1,44 @@
 .container {
-    max-width: 500px;
-    margin: 0;
-    padding: 30px;
-    text-align: left;
-    margin-left: 50px;
-  }
+  max-width: 500px;
+  margin: 0;
+  text-align: left;
+  margin-left: 50px;
+}
 
-  .input_style {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 25px;
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: 0.1px solid grey;
-  }
+.input_style {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 25px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 0.1px solid grey;
+}
 
-  .button_style {
-    width: 65%;
-    padding: 10px;
-    background-color: black;
-    color: white;
-    border: none;
-    margin: 10px 0;
-    cursor: pointer;
-    border-radius: 5px;
-  }
+.button_style {
+  width: 65%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  margin: 10px 0;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
-  .login_text {
-    margin-bottom: 7vw;
-    margin-top: 9vw;
-    font-weight: bold;
-    font-family: 'Littera Text', serif;
-    font-size: 60px;
-  }
+.login_text {
+  margin-bottom: 7vw;
+  margin-top: 10vw;
+  font-weight: bold;
+  font-family: 'Littera Text', serif;
+  font-size: 60px;
+}
 
-  .registerLink {
-    margin-top: 20px;
-    font-size: 16px;
-  }
+.registerLink {
+  margin-top: 20px;
+  font-size: 16px;
+}
 
-  .registerLink a {
-    color: blue;
-    text-decoration: underline;
-  }
+.registerLink a {
+  color: blue;
+  text-decoration: underline;
+}

@@ -3,8 +3,7 @@ import { useState,useEffect } from "react";
 import { CartHeader } from "./cartHeader";
 import { CartList } from "./cartList";
 import { TotalCart } from "./totalCart";
-import axios from "axios";
-
+import axiosInstance from "../../service/axiosinstance";
 
 export const Cart = ({ cart, setCart, convertPrice}) => {
   const [total, setTotal] = useState(0);
@@ -13,96 +12,78 @@ export const Cart = ({ cart, setCart, convertPrice}) => {
     cart.length === checkLists.length && checkLists.length !== 0;
 
     useEffect(() => {
-      axios.get('/carts/viewAll')
+      axiosInstance.get('/carts/viewAll', {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        }
+      })
         .then(response => {
-          setCart(response.data);
+          const cartData = response.data.map(item => ({
+            itemId: item.cartItemDTO.itemId,
+            name: item.cartItemDTO.name,
+            price: item.cartItemDTO.price,
+            category: item.cartItemDTO.category,
+            imageUrl: item.cartItemDTO.imageUrl,
+            quantity: item.quantity,
+          }));
+          setCart(cartData);
         })
         .catch(error => {
           console.error(error);
         });
     }, []);
   
-    const handleQuantity = (type, id, quantity) => {
-      const found = cart.filter((el) => el.id === id)[0];
-      const idx = cart.indexOf(found);
-    
-      if (!found) {
-        console.error("Item not found in cart");
+    const handleQuantity = (type, itemId, quantity) => {    
+      if (quantity <= 0) {
+        console.error("Quantity cannot be less than zero");
         return;
       }
-    
       const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        provider: found.provider,
+        itemId: itemId,
+        quantity: quantity
       };
     
-      if (type === "plus") {
-        axios.post('/carts/add', { id, quantity })
-          .then(response => {
-            setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-            //const updatedCart = response.data; 
-            //setCart(updatedCart);
-          })
-          .catch(error => {
-            console.error("Error updating cart:", error);
-          });
-      } else if (type === "minus" && quantity === 0) {
-        console.warn("Quantity cannot be zero when decrementing");
-      }
-    };
-    /*
-    
-  const handleQuantity = (type, id, quantity) => {
-    const found = cart.filter((el) => el.id === id)[0];
-    const idx = cart.indexOf(found);
-
-    if (type === "plus") {
-      const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        provider: found.provider,
-      };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    } else {
-      if (quantity === 0) return;
-      const cartItem = {
-        id: found.id,
-        image: found.image,
-        name: found.name,
-        quantity: quantity,
-        price: found.price,
-        provider: found.provider,
-      };
-      setCart([...cart.slice(0, idx), cartItem, ...cart.slice(idx + 1)]);
-    }
-  };
-    */ 
-  
-    const handleRemove = (id) => {
-      axios.delete(`/carts/delete/${id}`)
-        .then(response => {
-          setCart(cart.filter(item => item.id !== id));
-          setCheckLists(checkLists.filter(check => check !== id));
-        })
+      console.log("보내기 전 cartItem:", cartItem);
+      axiosInstance.put('/carts/quantity', cartItem, {
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`,
+        }
+      })
+      .then(response => {
+        setCart(currentCart => {
+          return currentCart.map((el) =>
+            el.itemId === itemId ? { ...el, quantity: quantity } : el
+          );
+        });
+      })
         .catch(error => {
-          console.error(error);
+          console.error("Error updating cart:", error);
         });
     };
 
+  const handleRemove = (itemId) => {
+    axiosInstance.delete(`/carts/delete/${itemId}`, {
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      }
+    })
+      .then(response => {
+        setCart(cart.filter(item => item.itemId !== itemId));
+        setCheckLists(checkLists.filter(check => check !== itemId));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   const found = checkLists.map((checkList) =>
-    cart.filter((el) => el.id === parseInt(checkList))
+    cart.filter((el) => el.itemId === parseInt(checkList))
   );
 
   const handleCheckList = (checked, id) => {
     if (checked) {
       setCheckLists([...checkLists, id]);
+      console.log(checkLists);
     } else {
       setCheckLists(checkLists.filter((check) => check !== id));
     }
@@ -111,7 +92,7 @@ export const Cart = ({ cart, setCart, convertPrice}) => {
   const handleCheckAll = (checked) => {
     if (checked) {
       const checkItems = [];
-      cart.map((cart) => checkItems.push(`${cart.id}`));
+      cart.map((cart) => checkItems.push(`${cart.itemId}`));
       setCheckLists(checkItems);
     } else {
       setCheckLists([]);
@@ -125,7 +106,7 @@ export const Cart = ({ cart, setCart, convertPrice}) => {
         cart.map((cart) => {
           return (
             <CartList
-              key={`key-${cart.id}`}
+              key={`key-${cart.itemId}`}
               cart={cart}
               setCart={setCart}
               convertPrice={convertPrice}
