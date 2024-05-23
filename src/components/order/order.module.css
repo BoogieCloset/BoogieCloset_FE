@@ -118,3 +118,18 @@
   .checkoutTable tr:nth-child(odd) {
     background-color: #f9f9f9;
   }
+
+  .address_button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* 버튼 기본 배경색을 파란색으로 설정 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* 배경색 변경 효과를 부드럽게 */
+  }
+  
+  .address_button:hover {
+    background-color: #0056b3; /* 호버 시 배경색을 좀 더 어두운 파란색으로 변경 */
+  }

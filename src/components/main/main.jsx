@@ -3,7 +3,7 @@ import { EventBanner } from "../eventBanner/eventBanner";
 import { Product } from "../products/product";
 import { Sidebar } from "../sidebar/sidebar";
 import { useEffect, useState } from "react";
-import axiosInstance from "../../service/axiosinstance";
+import axios from "axios";
 
 const categories = ["전체", "TOP", "OUTER", "PANTS", "SKIRT", "ONEPIECE", "SHOES", "ACCESSORY"];
 
@@ -26,7 +26,7 @@ export const Main = ({ products, setProducts, convertPrice }) => {
   const [selectedCategory, setSelectedCategory] = useState("전체");
 
   useEffect(() => {
-    axiosInstance.get('/items/list')
+    axios.get('/items/list')
       .then((response) => {
         setProducts(response.data);
       })

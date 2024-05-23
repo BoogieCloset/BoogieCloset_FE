@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styles from "./detail.module.css";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../service/axiosinstance";
+import axios from "axios";
 
 export const Detail = ({ convertPrice, cart, setCart}) => {
   const { id } = useParams();
@@ -13,7 +14,7 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axiosInstance.get(`/items/get/${id}`);
+        const response = await axios.get(`/items/get/${id}`);
         setProduct(response.data);
         console.log(product);
       } catch (error) {

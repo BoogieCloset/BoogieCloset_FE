@@ -7,6 +7,7 @@ export const Order = ({ convertPrice }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [cardNumber, setCardNumber] = useState("");
+  const [address, setAddress] = useState("");
   const { orderItem, isDirectPurchase } = location.state;
 
   const totalPrice = orderItem.reduce((accumulator, item) => {
@@ -25,10 +26,11 @@ export const Order = ({ convertPrice }) => {
         const requestData = {
           cartAddDTOS: cartAddDTOS, 
           cardnum: cardNumber,
+          address: address
         };
 
         console.log(requestData);
-      axiosInstance.post('/orders/addselectcart', requestData, {
+      axiosInstance.post('/orders/addselect', requestData, {
         headers: {
           Authorization: `${localStorage.getItem('token')}`,
         }
@@ -42,9 +44,10 @@ export const Order = ({ convertPrice }) => {
               }
             })
           );
+        }
           alert("결제 완료!");
           navigate('/');
-        }})
+        })
         .catch(error => {
           console.error('Error adding order:', error);
         });
@@ -57,6 +60,21 @@ export const Order = ({ convertPrice }) => {
   function importLocalImage(imageName) {
     return require(`/public/images/${imageName}`);
   }
+
+  // 내 주소 가져오기
+  const fetchMyAddress = () => {
+    axiosInstance.get("members/address", {
+      headers: {
+        Authorization: `${localStorage.getItem('token')}`,
+      }
+    })
+      .then((response) => {
+        setAddress(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching address:", error);
+      });
+  };
 
   return (
     <div className={styles.checkout_container}>
@@ -96,9 +114,18 @@ export const Order = ({ convertPrice }) => {
             <label htmlFor="name">이름</label>
             <input type="text" id="name" name="name" required />
           </div>
+          
           <div className={styles.form_group}>
+          <button className={styles.address_button} onClick={fetchMyAddress}>내 주소 불러오기</button>
             <label htmlFor="address">주소</label>
-            <input type="text" id="address" name="address" required />
+            <input
+            type="text"
+            id="address"
+            name="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
           </div>
     </div>
     <div className={styles.payment_info}>
@@ -118,7 +145,7 @@ export const Order = ({ convertPrice }) => {
             />
           </div>
           <div className={styles.form_group}>
-            <label htmlFor="cvv">CVV</label>
+            <label htmlFor="cvv">CVC</label>
             <input type="text" id="cvv" name="cvv" required />
           </div>
           <button className={styles.submit_button} onClick={() => {handleOrder();}}> 
