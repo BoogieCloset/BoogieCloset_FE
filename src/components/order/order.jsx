@@ -58,7 +58,7 @@ export const Order = ({ convertPrice }) => {
   }
 
   function importLocalImage(imageName) {
-    return require(`/public/images/${imageName}`);
+    return require(`../../../public/images/${imageName}`);
   }
 
   // 내 주소 가져오기
@@ -93,7 +93,7 @@ export const Order = ({ convertPrice }) => {
   <tbody>
     {orderItem.map((item) => (
       <tr key={item.id}>
-        <td><img src={item.image} alt="product-img" className={styles.itemImage} /></td>
+        {item.imageUrl && <td><img src={importLocalImage(item.imageUrl)} alt="product-img" className={styles.itemImage} /></td>}
         <td>{item.name}</td>
         <td>{convertPrice(item.price)}원</td>
         <td>{item.quantity}</td>

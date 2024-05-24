@@ -8,8 +8,9 @@ export const CartList = ({
   handleRemove,
   handleCheckList,
 }) => {
-  function importLocalImage(imageName) {
-    return require(`/public/images/${imageName}`);
+
+    function importLocalImage(imageName) {
+    return require(`../../../public/images/${imageName}`);
   }
   
   return (
@@ -24,7 +25,7 @@ export const CartList = ({
       />
       <div className={styles.cart_product_wrap}>
         <div className={styles.cart_product_image}>
-          <img src={cart.image} alt="product-img" />
+          {cart.imageUrl && <img src={importLocalImage(cart.imageUrl)} alt="cart" />}
         </div>
 
         <div className={styles.cart_product_info}>

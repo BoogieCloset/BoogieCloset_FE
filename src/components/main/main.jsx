@@ -5,7 +5,7 @@ import { Sidebar } from "../sidebar/sidebar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const categories = ["전체", "TOP", "OUTER", "PANTS", "SKIRT", "ONEPIECE", "SHOES", "ACCESSORY"];
+const categories = ["전체", "TOP", "OUTER", "PANTS", "SKIRT", "DRESS", "SHOES", "ACC"];
 
 export const Main = ({ products, setProducts, convertPrice }) => {
   const sortProduct = (type) => {
