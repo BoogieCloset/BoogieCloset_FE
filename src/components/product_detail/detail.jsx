@@ -94,6 +94,10 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
   }
   };
 
+  function importLocalImage(imageName) {
+    return require(`../../../public/images/${imageName}`);
+  }
+  
 
   return (
     product && (
@@ -101,7 +105,7 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
         <main className={styles.main}>
           <section className={styles.product}>
             <div className={styles.product_img}>
-              <img src={product.image} alt="product" />
+              {product.imagePath && <img src={importLocalImage(product.imagePath)} alt="product" />}
             </div>
           </section>
           <section className={styles.product}>

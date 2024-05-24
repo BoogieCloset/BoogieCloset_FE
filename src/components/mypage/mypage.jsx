@@ -88,6 +88,10 @@ const MyPage = () => {
     return <div>Loading...</div>;
   }
 
+  function importLocalImage(imageName) {
+    return require(`../../../public/images/${imageName}`);
+  }
+
   return (
     <div className="my-page">
       <h1>My Page</h1>
@@ -120,11 +124,11 @@ const MyPage = () => {
               <p className="order-state">{translateOrderState(order.orderState)}</p>
               {order.orderItems.map(item => (
                 <div key={item.id} className="order-item">
-                  <img
-                    src={`/images/${item.imageUrl || "logo.png"}`}
+                  {item.imageUrl && <img
+                    src={importLocalImage(item.imageUrl)}
                     alt={item.itemname}
                     className="order-item-image"
-                  />
+                  />}
                   <div className="order-item-details">
                     <p className="itemname">{item.itemname}</p>
                     <p className="iteminfo">{item.itemprice}원  {item.quantity}개</p>

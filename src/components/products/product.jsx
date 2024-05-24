@@ -5,14 +5,14 @@ import { useState } from "react";
 export const Product = ({ product, convertPrice }) => {
 
   function importLocalImage(imageName) {
-    return require(`/public/images/${imageName}`);
+    return require(`../../../public/images/${imageName}`);
   }
   
   return (
     <div className={styles.product}>
       <Link to={`/product/${product.id}`}>
         <div className={styles.product_image}>
-          <img src={product.image} alt="product" />
+          <img src={importLocalImage(product.imagePath)} alt="product" />
         </div>
       </Link>
       <div className={styles.store}>
