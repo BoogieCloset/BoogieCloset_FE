@@ -37,15 +37,14 @@ export const Register = () => {
             const response = await axios.post('/members/add', formData);
             if (response.status === 200) {
                 console.log('Registration successful:', response.data);
-
                 alert('회원 가입이 성공적으로 완료되었습니다.');
-                // 홈 화면으로 이동
                 navigate('/login');
             } else {
                 console.error('Registration failed');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Registration failed');
+            alert('이미 사용중인 이메일입니다. 다른 이메일을 사용해 주세요.');
         }
     };
 

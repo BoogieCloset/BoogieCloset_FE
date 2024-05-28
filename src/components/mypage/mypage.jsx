@@ -24,7 +24,7 @@ const MyPage = () => {
     axiosInstance.put(`/members/update-address/${userInfo.id}`, { newAddress })
       .then(response => {
         setUserInfo(prevState => ({ ...prevState, address: newAddress }));
-        alert('Address updated successfully!');
+        alert('주소 수정 완료!');
         setShowModal(false);
         setNewAddress('');
       })
@@ -42,7 +42,7 @@ const MyPage = () => {
         withCredentials: true,
       });
       localStorage.removeItem('token');
-      alert('Account deleted successfully!');
+      alert('회원 탈퇴 완료');
       window.location.href = '/';
     } catch (error) {
       console.error('Error deleting account:', error);
