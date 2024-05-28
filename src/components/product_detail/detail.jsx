@@ -54,7 +54,6 @@ export const Detail = ({ convertPrice, cart, setCart}) => {
         console.error('Unexpected status code:', result.status);
       }
     } catch (error) {
-      // 오류 처리
       console.error('Error adding item to cart', error);
       alert('장바구니에 이미 존재하는 물건입니다.');
     }

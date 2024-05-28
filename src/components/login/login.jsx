@@ -25,11 +25,11 @@ export const Login = () => {
         console.error('Authorization header is missing in the response.');
       }
 
-
       window.location.href = '/';
       
     } catch (error) {
       console.error('로그인 실패:', error);
+      alert('이메일과 비밀번호를 다시 입력해주세요');
     }
   };
 
